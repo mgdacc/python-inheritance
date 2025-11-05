@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Interactiva: Herencia en Python</title>
+    <style>
+        /* === ESTILOS GLOBALES Y DE ESCRITORIO === */
+        body {
+            font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0;
+            padding: 40px; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; box-sizing: border-box; transition: padding 0.3s ease;
+        }
+
+        .slideshow-container { position: relative; width: 90%; max-width: 960px; }
+        
+        .slide {
+            display: none; background-color: #fff; border: 1px solid #ccc;
+            height: 540px; padding: 40px 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            flex-direction: column; justify-content: center; position: relative;
+            box-sizing: border-box;
+        }
+
+        .fade { animation-name: fade; animation-duration: 0.5s; }
+        @keyframes fade { from {opacity: .4} to {opacity: 1} }
+
+        .prev, .next {
+            cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%);
+            width: 50px; height: 50px; background-color: #cccccc; color: #333;
+            border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; font-size: 24px; transition: all 0.3s ease;
+            user-select: none; z-index: 10;
+        }
+
+        .prev { left: -70px; }
+        .next { right: -70px; }
+        .prev:hover, .next:hover { background-color: #aaaaaa; }
+
+        .slide h1 { font-size: 3.5em; text-align: center; border-bottom: 4px solid #11a800; padding-bottom: 20px; color: #005A9C; }
+        .slide h2 { font-size: 2.8em; margin-top: 0; margin-bottom: 30px; text-align: center; color: #005A9C; }
+        .single-content { text-align: center; }
+        .single-content p { font-size: 1.5em; color: #444; }
+        .single-content pre { font-size: 1.2em; display: inline-block; text-align: left; max-width: 100%; }
+        pre { background-color: #2d3436; color: #fff; padding: 15px; border-radius: 5px; font-size: 1.1em; white-space: pre-wrap; }
+        .footer { position: absolute; bottom: 20px; right: 40px; font-size: 1em; color: #888; }
+
+        /* === MEDIA QUERIES === */
+        @media screen and (max-width: 768px) {
+            body { padding: 15px; }
+            .slideshow-container { width: 100%; padding-bottom: 75px; }
+            .slide { height: auto; min-height: 75vh; padding: 20px 25px; }
+            .prev, .next { top: auto; bottom: 15px; width: 45px; height: 45px; }
+            .prev { left: 50%; transform: translateX(-110%); }
+            .next { left: 50%; transform: translateX(10%); right: auto; }
+            .slide h1 { font-size: 2.2em; }
+            .slide h2 { font-size: 1.8em; }
+            .single-content p { font-size: 1.1em; }
+            .single-content pre { font-size: 1em; }
+            .footer { font-size: 0.8em; right: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slideshow-container">
+        
+        <div class="slide fade">
+            <h1>Cheat Sheet de Python</h1>
+            <h2 style="color:#333; border:none;">Herencia</h2>
+            <div class="footer">1 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>¿Qué es la Herencia?</h2>
+            <div class="single-content"><p>Un mecanismo que permite a una clase (hija) adquirir los atributos y métodos de otra clase (padre). Modela una relación "es un".</p></div>
+            <div class="footer">2 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>¿Por qué usar Herencia?</h2>
+            <div class="single-content"><p>Para reutilizar código y crear una jerarquía lógica entre clases. Evita repetir código y organiza mejor el proyecto.</p></div>
+            <div class="footer">3 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>Clase Padre (Superclase)</h2>
+            <div class="single-content"><p>Es la clase general de la que otras heredan.</p><pre><code>class Vehiculo:
+    def __init__(self, marca):
+        self.marca = marca
+    
+    def arrancar(self):
+        print("El vehículo ha arrancado.")</code></pre></div>
+            <div class="footer">4 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>Clase Hija (Subclase)</h2>
+            <div class="single-content"><p>Es la clase especializada que hereda de la clase padre.</p><pre><code># Coche "es un" Vehiculo
+class Coche(Vehiculo):
+    def tocar_claxon(self):
+        print("¡Bip, bip!")</code></pre></div>
+            <div class="footer">5 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>Uso de la Herencia</h2>
+            <div class="single-content"><p>La clase hija tiene acceso a los métodos de la clase padre y a los suyos propios.</p><pre><code>mi_coche = Coche("Toyota")
+mi_coche.arrancar()    # Método heredado de Vehiculo
+mi_coche.tocar_claxon() # Método propio de Coche</code></pre></div>
+            <div class="footer">6 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>Extender el Constructor</h2>
+            <div class="single-content"><p>A menudo, la clase hija necesita sus propios atributos además de los del padre.</p><pre><code>class Coche(Vehiculo):
+    def __init__(self, marca, modelo):
+        # ¿Cómo le pasamos 'marca' al constructor del padre?
+        self.modelo = modelo</code></pre></div>
+            <div class="footer">7 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>La Función <code>super()</code></h2>
+            <div class="single-content"><p>Permite llamar a métodos de la clase padre. Se usa para invocar el `__init__` del padre desde el `__init__` del hijo.</p><pre><code>class Coche(Vehiculo):
+    def __init__(self, marca, modelo):
+        super().__init__(marca) # Llama al __init__ de Vehiculo
+        self.modelo = modelo</code></pre></div>
+            <div class="footer">8 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>Ejemplo con <code>super()</code></h2>
+            <div class="single-content"><p>Ahora el objeto Coche tiene tanto `marca` como `modelo`.</p><pre><code>mi_coche = Coche("Ford", "Mustang")
+print(mi_coche.marca)  # Ford (del padre)
+print(mi_coche.modelo) # Mustang (propio)</code></pre></div>
+            <div class="footer">9 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>Sobrescritura de Métodos</h2>
+            <div class="single-content"><p>Una clase hija puede redefinir un método de la clase padre para que tenga un comportamiento específico.</p><pre><code>class CocheElectrico(Coche):
+    def arrancar(self): # Sobrescribimos el método
+        print("El coche eléctrico arranca en silencio.")</code></pre></div>
+            <div class="footer">10 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>Herencia Múltiple</h2>
+            <div class="single-content"><p>Una clase puede heredar de varias clases padre, adquiriendo los métodos de todas ellas.</p></div>
+            <div class="footer">11 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>Ejemplo de Herencia Múltiple</h2>
+            <div class="single-content"><p>Se listan las clases padre entre paréntesis, separadas por comas.</p><pre><code>class Telefono:
+    def llamar(self): print("Llamando...")
+
+class Camara:
+    def tomar_foto(self): print("Foto tomada.")
+
+class Smartphone(Telefono, Camara):
+    pass</code></pre></div>
+            <div class="footer">12 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>Uso de Herencia Múltiple</h2>
+            <div class="single-content"><p>El objeto `Smartphone` tiene acceso a los métodos de ambas clases padre.</p><pre><code>mi_movil = Smartphone()
+mi_movil.llamar()      # Heredado de Telefono
+mi_movil.tomar_foto()  # Heredado de Camara</code></pre></div>
+            <div class="footer">13 / 15</div>
+        </div>
+
+        <div class="slide fade">
+            <h2>Función: <code>isinstance()</code></h2>
+            <div class="single-content"><p>Verifica si un objeto es una instancia de una clase o de una de sus superclases.</p><pre><code>mi_coche = Coche("Renault")
+print(isinstance(mi_coche, Coche))    # True
+print(isinstance(mi_coche, Vehiculo)) # True</code></pre></div>
+            <div class="footer">14 / 15</div>
+        </div>
+        
+        <div class="slide fade">
+            <h2>Función: <code>issubclass()</code></h2>
+            <div class="single-content"><p>Verifica si una clase es una subclase de otra.</p><pre><code>print(issubclass(Coche, Vehiculo)) # True
+print(issubclass(Vehiculo, Coche)) # False</code></pre></div>
+            <div class="footer">15 / 15</div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slide");
+            if (n > slides.length) { slideIndex = 1 } 
+            if (n < 1) { slideIndex = slides.length }
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            
+            slides[slideIndex - 1].style.display = "flex";
+        }
+    </script>
+
+</body>
+</html>
